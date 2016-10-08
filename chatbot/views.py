@@ -58,8 +58,8 @@ def set_greeting_text():
 
 
 def index(request):
-    set_menu()
-
+    #set_menu()
+    handle_postback('fbid','MENU_CALL')
     post_facebook_message('asd','asdasd')
     search_string = request.GET.get('text') or 'foo'
     output_text = gen_response_object('fbid',item_type='teacher')
@@ -87,6 +87,11 @@ def set_menu():
                               "type":"postback",
                               "title":"Teachers",
                               "payload":"MENU_TEACHER"
+                            },
+                            {
+                              "type":"postback",
+                              "title":"Talk to a human",
+                              "payload":"MENU_CALL"
                             },
                             {
                               "type":"postback",
@@ -166,12 +171,45 @@ def handle_postback(fbid,payload):
     output_text = 'Payload Recieved: ' + payload
     logg(payload,symbol='*')
 
-    if payload == 'RANDOM_JOKE':
-        post_facebook_message(fbid,'foo')
+    if payload == 'MENU_COURSE':
+        return post_facebook_message(fbid,'course')
+    elif payload == 'MENU_TEACHER':
+        return post_facebook_message(fbid,'teacher')
+    elif payload == 'MENU_WHY':
+        return post_facebook_message(fbid,'why')
+    elif payload == "MENU_HELP":
+        output_text = 'Welcome to CodingBlocks chatbot, you can se this chatbot to ...'
+        response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":output_text}})
+        status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+    
+    elif payload == 'MENU_CALL':
 
-    #response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":output_text}})
-    #status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
-    return
+        response_object =   {
+                              "recipient":{
+                                "id":fbid
+                              },
+                              "message":{
+                                "attachment":{
+                                  "type":"template",
+                                  "payload":{
+                                    "template_type":"button",
+                                    "text":"Need further assistance? Talk to one of our representative",
+                                    "buttons":[
+                                      {
+                                                "type":"phone_number",
+                                                "title":"Call Us",
+                                                "payload":"+919599586446"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+        response_msg = json.dumps(response_object)
+        requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+    
+
+    #return
 
 def logg(message,symbol='-'):
     print '%s\n %s \n%s'%(symbol*10,message,symbol*10)
