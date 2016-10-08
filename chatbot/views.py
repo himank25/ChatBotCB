@@ -65,14 +65,11 @@ def index(request):
 
 
 def gen_response_object(fbid,item_type='course'):
-
     spreadsheet_object = scrape_spreadsheet()
-
     item_arr = [i for i in spreadsheet_object if i['itemtype'] == item_type]
-
     elements_arr = []
-    for i in item_arr:
 
+    for i in item_arr:
         sub_item = {
                         "title":i['itemname'],
                         "item_url":i['itemlink'],
@@ -89,12 +86,10 @@ def gen_response_object(fbid,item_type='course'):
                           }              
                         ]
                       }
-
         elements_arr.append(sub_item)
 
 
     response_object = {
-
               "recipient":{
                 "id":fbid
               },
@@ -113,10 +108,21 @@ def gen_response_object(fbid,item_type='course'):
 
 def post_facebook_message(fbid,message_text):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
-    
+    message_text = message_text.lower()
+
     output_text = message_text
 
-    response_msg = gen_response_object(fbid)
+    if message_text in 'teachers,teacher,professors,professor'.split(','):
+        item_type = 'teacher'
+    
+    elif message_text in 'why,features,points'.split(','):
+        item_type = 'why'
+
+    elif message_text in 'course,courses,lectures,batch,next batch'.split(','):
+        item_type = 'course'
+
+
+    response_msg = gen_response_object(fbid,item_type='teacher')
 
     #response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":output_text}})
     requests.post(post_message_url, 
