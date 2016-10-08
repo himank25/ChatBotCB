@@ -58,10 +58,50 @@ def set_greeting_text():
 
 
 def index(request):
+    set_menu()
+
     post_facebook_message('asd','asdasd')
     search_string = request.GET.get('text') or 'foo'
     output_text = gen_response_object('fbid',item_type='teacher')
     return HttpResponse(output_text, content_type='application/json')
+
+
+def set_menu():
+    post_message_url = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=%s'%PAGE_ACCESS_TOKEN
+    
+    response_object =   {
+                          "setting_type" : "call_to_actions",
+                          "thread_state" : "existing_thread",
+                          "call_to_actions":[
+                            {
+                              "type":"postback",
+                              "title":"Help",
+                              "payload":"MENU_HELP"
+                            },
+                            {
+                              "type":"postback",
+                              "title":"Course",
+                              "payload":"MENU_COURSE"
+                            },
+                            {
+                              "type":"postback",
+                              "title":"Teachers",
+                              "payload":"MENU_TEACHER"
+                            },
+                            {
+                              "type":"postback",
+                              "title":"Why CodingBlocks",
+                              "payload":"MENU_WHY"
+                            }
+                          ]
+                        }
+
+    menu_object = json.dumps(response_object)
+    status = requests.post(post_message_url,
+          headers = {"Content-Type": "application/json"},
+          data = menu_object)
+
+    logg(status.text,'-MENU-OBJECT-')
 
 
 def gen_response_object(fbid,item_type='course'):
@@ -110,21 +150,12 @@ def post_facebook_message(fbid,message_text):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     message_text = message_text.lower()
 
-    output_text = message_text
-
-    if message_text in 'teachers,teacher,professors,professor'.split(','):
-        item_type = 'teacher'
+    if message_text in 'teacher,why,course'.split(','):
+        response_msg = gen_response_object(fbid,item_type=message_text)
+    else:
+        output_text = "Hi, how may I help you"
+        response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":output_text}})
     
-    elif message_text in 'why,features,points'.split(','):
-        item_type = 'why'
-
-    elif message_text in 'course,courses,lectures,batch,next batch'.split(','):
-        item_type = 'course'
-
-
-    response_msg = gen_response_object(fbid,item_type='teacher')
-
-    #response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":output_text}})
     requests.post(post_message_url, 
                     headers={"Content-Type": "application/json"},
                     data=response_msg)
