@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from chatbot.views import MyChatBotView, index
+from dashboard.views import index as dashboard_index
 
 urlpatterns = patterns('',
     # Examples:
@@ -11,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^facebook_auth/?$', MyChatBotView.as_view()),
     url(r'^$', index),
+    url(r'^dashboard/?$', dashboard_index),
 )
