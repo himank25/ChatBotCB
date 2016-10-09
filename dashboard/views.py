@@ -13,3 +13,7 @@ def index(request):
 	context_dict['data'] = Messages.objects.all()	
 
 	return render(request, 'dashboard/index.html', context_dict)
+
+def login(request):
+	context_dict = {}
+	return render(request, 'dashboard/login.html', context_dict)
