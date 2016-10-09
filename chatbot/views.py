@@ -74,7 +74,7 @@ def set_greeting_text():
 def index(request):
     #set_menu()
     handle_postback('fbid','MENU_CALL')
-    post_facebook_message('asd','asdasd')
+    post_facebook_message('878426448925111','asdasd')
     search_string = request.GET.get('text') or 'foo'
     output_text = gen_response_object('fbid',item_type='teacher')
     return HttpResponse(output_text, content_type='application/json')
