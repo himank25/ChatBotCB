@@ -16,8 +16,12 @@ import pprint
 
 
 VERIFY_TOKEN = '8447789934m'
-PAGE_ACCESS_TOKEN = 'EAAaAgaQuGQQBAG769gvYxw10eN0frRZCxT74HoLiJUlYQVbG01JDomloZC5VaCiLUWcGUNWZAFHl5a58Ppan4nZBEAzbFDBC63e48Vf7BXZA4f4P7WZCJo9oCuFy4dZBAJvQPo7ZBjstp9NDdsxOjReXjOagxE0Mt5fTMKZBUTS6QvAZDZD'
+PAGE_ACCESS_TOKEN = 'EAAC0dUZCap94BAHX8p8MTvEmZBTShCGJxPiXMY0rjcyQNFZAOaewxe97pWUwPxBGStl5D8vPHAjsTaSeVKSa9iZC8qZAuakDHzjV62bZB3c4P1ccukdQFfATt9Q2ilZCQ71CLkWg04xRTYvMYCi9yu64l9QW3kdAs1OXxg3MJ8ydAZDZD'
 
+def save_message(fbid = '100001089115054'):
+  url = 'https://graph.facebook.com/v2.6/%s?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=PAGE_ACCESS_TOKEN'%fbid
+  resp = requests.get(url = url)
+  data = json.loads(resp.text)
 
 def scrape_spreadsheet():
     sheet_id = '1EXwvmdQV4WaMXtL4Ucn3kwwhS1GOMFu0Nh9ByVCfrxk'
