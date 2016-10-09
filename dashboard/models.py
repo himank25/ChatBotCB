@@ -7,6 +7,7 @@ class Messages(models.Model):
 	profile_url = models.URLField()
 	locale = models.CharField(max_length = 50)
 	gender = models.CharField(max_length = 10)
+	message = models.CharField(max_length = 1000)
 
 
 	def __unicode__(self):

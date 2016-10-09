@@ -22,6 +22,16 @@ def save_message(fbid = '100001089115054'):
   url = 'https://graph.facebook.com/v2.6/%s?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=PAGE_ACCESS_TOKEN'%fbid
   resp = requests.get(url = url)
   data = json.loads(resp.text)
+  name = '%s %s'%(data['first_name'], data['second_name'])
+  p = Messages.objects.get_or_create( name = name,
+    profile_url = data['profile_url'],
+    fb_id = fbid,
+    gender = data['gender'],
+    locale = data['locale'],
+    )[0]
+  p.save()
+
+  return json.dumps(data)
 
 def scrape_spreadsheet():
     sheet_id = '1EXwvmdQV4WaMXtL4Ucn3kwwhS1GOMFu0Nh9ByVCfrxk'
@@ -158,6 +168,7 @@ def gen_response_object(fbid,item_type='course'):
 def post_facebook_message(fbid,message_text):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     message_text = message_text.lower()
+    save_message(fbid)
 
     if message_text in 'teacher,why,course'.split(','):
         response_msg = gen_response_object(fbid,item_type=message_text)
