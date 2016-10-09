@@ -34,7 +34,7 @@ def domain_whitelist(domain = 'https://chatttbottt.herokuapp.com/'):
   logg(status.text,symbol='--WHT--')  
 
 
-def save_message(fbid = '100001089115054', message_text = 'hi'):
+def save_message(fbid = '343466615989437', message_text = 'hi'):
   url = 'https://graph.facebook.com/v2.6/%s?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=%s'%(fbid,PAGE_ACCESS_TOKEN)
   resp = requests.get(url = url)
   data = json.loads(resp.text)
@@ -92,7 +92,7 @@ def index(request):
     #set_menu()
     domain_whitelist()
     handle_postback('fbid','MENU_CALL')
-    post_facebook_message('878426448925111','asdasd')
+    post_facebook_message('343466615989437','asdasd')
     search_string = request.GET.get('text') or 'foo'
     output_text = gen_response_object('fbid',item_type='teacher')
     return HttpResponse(output_text, content_type='application/json')
