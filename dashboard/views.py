@@ -10,6 +10,6 @@ from dashboard.models import Messages
 def index(request):
 	context_dict = {}
 	context_dict['hi'] = 'hi'
-	
+	context_dict['data'] = Messages.objects.all()	
 
 	return render(request, 'dashboard/index.html', context_dict)
