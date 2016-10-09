@@ -232,8 +232,8 @@ def handle_postback(fbid,payload):
                                  }
                                }
                              }
-               response_msg = json.dumps(response_object)
-               requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+        response_msg = json.dumps(response_object)
+        requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
         
     elif payload == "MENU_HELP":
         output_text = 'Welcome to CodingBlocks chatbot, you can se this chatbot to ...'
