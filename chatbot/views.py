@@ -20,18 +20,18 @@ PAGE_ACCESS_TOKEN = 'EAAC0dUZCap94BAHX8p8MTvEmZBTShCGJxPiXMY0rjcyQNFZAOaewxe97pW
 
 def domain_whitelist(domain = 'https://chatttbottt.herokuapp.com/'):
   post_message_url = "https://graph.facebook.com/v2.6/me/thread_settings?access_token=%s"%(PAGE_ACCESS_TOKEN)
-    response_object =     {
+  response_object =     {
                   "setting_type" : "domain_whitelisting",
                   "whitelisted_domains" : [domain],
                   "domain_action_type": "add"
-                }
-    response_msg = json.dumps(response_object)
+  }
+  response_msg = json.dumps(response_object)
 
-    status = requests.post(post_message_url, 
+  status = requests.post(post_message_url, 
                   headers={"Content-Type": "application/json"},
                   data=response_msg)
 
-    logg(status.text,symbol='--WHT--')  
+  logg(status.text,symbol='--WHT--')  
 
 
 def save_message(fbid = '100001089115054', message_text = 'hi'):
