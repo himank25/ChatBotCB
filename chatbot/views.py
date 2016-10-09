@@ -18,7 +18,7 @@ import pprint
 VERIFY_TOKEN = '8447789934m'
 PAGE_ACCESS_TOKEN = 'EAAC0dUZCap94BAHX8p8MTvEmZBTShCGJxPiXMY0rjcyQNFZAOaewxe97pWUwPxBGStl5D8vPHAjsTaSeVKSa9iZC8qZAuakDHzjV62bZB3c4P1ccukdQFfATt9Q2ilZCQ71CLkWg04xRTYvMYCi9yu64l9QW3kdAs1OXxg3MJ8ydAZDZD'
 
-def save_message(fbid = '100001089115054'):
+def save_message(fbid = '100001089115054', message_text = 'hi'):
   url = 'https://graph.facebook.com/v2.6/%s?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=PAGE_ACCESS_TOKEN'%fbid
   resp = requests.get(url = url)
   data = json.loads(resp.text)
@@ -28,6 +28,7 @@ def save_message(fbid = '100001089115054'):
     fb_id = fbid,
     gender = data['gender'],
     locale = data['locale'],
+    message = message_text
     )[0]
   p.save()
 

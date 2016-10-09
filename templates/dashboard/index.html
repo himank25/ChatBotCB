@@ -36,7 +36,24 @@
 
       </div>
       <div role="tabpanel" class="tab-pane" id="profile">profile</div>
-      <div role="tabpanel" class="tab-pane" id="messages">message</div>
+      <div role="tabpanel" class="tab-pane" id="messages">message
+          {% for message in data %}
+            <div class = 'row'>
+              <div class = 'col-md-4'>
+                  <img src="{{message.profile_url}}" width="100px">
+              </div>
+              <div class = 'col-md-8'>
+                <address>
+                  <strong>{{message.name}}</strong><br>
+                  <p>{{message.message}}</p>
+                  <small>{{message.locale}} | {{message.gender}}</small>
+                </address>
+              </div>
+              </div>
+              <hr>
+          {% endfor %}
+          </div>
+
       <div role="tabpanel" class="tab-pane" id="settings">settings</div>
     </div>
 
