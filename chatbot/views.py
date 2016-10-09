@@ -38,7 +38,10 @@ def save_message(fbid = '343466615989437', message_text = 'hi'):
   url = 'https://graph.facebook.com/v2.6/%s?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=%s'%(fbid,PAGE_ACCESS_TOKEN)
   resp = requests.get(url = url)
   data = json.loads(resp.text)
-  name = '%s %s'%(data['first_name'], data['second_name'])
+  try:
+    name = '%s %s'%(data['first_name'], data['second_name'])
+  except:
+    return
   p = Messages.objects.get_or_create( name = name,
     profile_url = data['profile_url'],
     fb_id = fbid,
