@@ -361,4 +361,3 @@ class MyChatBotView(generic.View):
                     logg(e,symbol='-332-')
 
         return HttpResponse()  
-
